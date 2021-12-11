@@ -6,6 +6,8 @@ import {
   BsHouseDoor,
   BsStars,
   BsPinAngle,
+  BsFillShareFill,
+  BsHeart,
 } from "react-icons/bs";
 
 const urlFor = (source) =>
@@ -36,69 +38,107 @@ const Property = (property) => {
   console.log(ratings);
 
   return (
-    <article>
-      <h1>Property</h1>
-      <section>
-        <h2>{title}</h2>
-        <p>
-          <span aria-hidden="true">
-            <BsFillStarFill />
-          </span>
-          {ratings.reduce((a, b) => a + b, 0) / ratings.length}
-        </p>
-        <p>
-          {reviews.length} review{isPlural(reviews.length)}
-        </p>
-        <p>{description}</p>
-        <p>Host: {host.name}</p>
-        <img src={urlFor(host.mainImage.asset)} alt="Host avatar" />
+    <article className="container">
+      <header className="property-header">
+        <div className="text-sm">
+          <h1 className="text-xl">{title}</h1>
+
+          <p>
+            <span aria-hidden="true">
+              <BsFillStarFill />
+            </span>
+            {ratings.reduce((a, b) => a + b, 0) / ratings.length}
+          </p>
+
+          <p>
+            {reviews.length} review{isPlural(reviews.length)}
+          </p>
+        </div>
+        <div className="text-sm">
+          <a href="#">
+            <BsFillShareFill />
+            Share
+          </a>
+          <a href="#">
+            <BsHeart />
+            Save
+          </a>
+        </div>
+      </header>
+
+      <section className="property-images">
         <img src={imageUrl} alt="Main property image" />
-        <p>
-          {beds} Bed{isPlural(beds)}
-        </p>
-        <p>
-          {bedrooms} Bedroom{isPlural(bedrooms)}
-        </p>
-        <p>{propertyType}</p>
-        <p>${pricePerNight}</p>
-        <p>Latitude: {location.lat}</p>
-        <p>Longitude: {location.lng}</p>
         {images.map((img, index) => (
-          <div key={index}>
-            <img src={urlFor(img.asset)} alt={img.caption} />
-          </div>
-        ))}
-        <h2>Amenities</h2>
-        <p>
-          <BsHouseDoor />
-          Entire home <br />
-          <span>You’ll have the {propertyType} to yourself.</span>
-        </p>
-        <p>
-          <BsStars />
-          Enhanced Clean <br />
-          <span>
-            This Host committed to Airbnb's 5-step enhanced cleaning process.
-          </span>
-        </p>
-        <p>
-          <BsPinAngle />
-          Great location <br />
-          <span>100% of recent guests gave the location a 5-star rating.</span>
-        </p>
-        <h2>Reviews</h2>
-        {reviews.map((review, index) => (
-          <div key={index}>
-            <p>{review.rating}</p>
-            <p>{review.reviewDescription}</p>
-            <p>{review.traveller.name}</p>
-            <img
-              src={urlFor(review.traveller.mainImage.asset)}
-              alt="User avatar"
-            />
-          </div>
+          <img src={urlFor(img.asset)} alt={img.caption} key={index} />
         ))}
       </section>
+
+      <div className="property-details">
+        <div>
+          <section>
+            <div>
+              <div>
+                <p>
+                  Entire {propertyType} hosted by {host.name}
+                </p>
+                <p>
+                  {beds} Bed{isPlural(beds)}
+                </p>
+                <p>
+                  {bedrooms} Bedroom{isPlural(bedrooms)}
+                </p>
+              </div>
+              <img src={urlFor(host.mainImage.asset)} alt="Host avatar" />
+            </div>
+
+            <p>
+              <BsHouseDoor />
+              Entire home <br />
+              <span>You’ll have the {propertyType} to yourself.</span>
+            </p>
+            <p>
+              <BsStars />
+              Enhanced Clean <br />
+              <span>
+                This Host committed to Airbnb's 5-step enhanced cleaning
+                process.
+              </span>
+            </p>
+            <p>
+              <BsPinAngle />
+              Great location <br />
+              <span>
+                100% of recent guests gave the location a 5-star rating.
+              </span>
+            </p>
+          </section>
+
+          <section>
+            <p>{description}</p>
+          </section>
+        </div>
+
+        <section>
+          <p>${pricePerNight} / night</p>
+          <button>Check availability</button>
+        </section>
+      </div>
+
+      {/* <p>Latitude: {location.lat}</p>
+      <p>Longitude: {location.lng}</p> */}
+
+      {/* <h2>Reviews</h2>
+      {reviews.map((review, index) => (
+        <div key={index}>
+          <p>{review.rating}</p>
+          <p>{review.reviewDescription}</p>
+          <p>{review.traveller.name}</p>
+          <img
+            src={urlFor(review.traveller.mainImage.asset)}
+            alt="User avatar"
+          />
+        </div>
+      ))} */}
     </article>
   );
 };
