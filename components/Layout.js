@@ -18,11 +18,13 @@ const Layout = ({ children }) => {
 
       <nav className="primary-nav">
         <div className="container">
-          <Link href="/">
-            <a>
-              <img className="logo" src="/airbnb.svg" alt="Airbnb logo" />
-            </a>
-          </Link>
+          <div>
+            <Link href="/">
+              <a>
+                <img className="logo" src="/airbnb.svg" alt="Airbnb logo" />
+              </a>
+            </Link>
+          </div>
 
           <button className="search-bar">
             <p>Start your search</p>
@@ -31,15 +33,15 @@ const Layout = ({ children }) => {
 
           <ul className="account-settings">
             <li>
-              <a href="#">Become a Host</a>
-            </li>
-            <li>
-              <a href="#" aria-label="Change language">
-                <BsGlobe2 />
+              <a href="#" className="text-base">
+                Become a Host
               </a>
             </li>
             <li>
-              <button aria-label="Toggle user menu">
+              <BsGlobe2 />
+            </li>
+            <li>
+              <button className="user-settings" aria-label="Toggle user menu">
                 <BsList />
                 <FaUserCircle />
               </button>

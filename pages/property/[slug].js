@@ -8,7 +8,9 @@ import {
   BsPinAngle,
   BsFillShareFill,
   BsHeart,
+  BsTranslate,
 } from "react-icons/bs";
+import { SiGoogletranslate } from "react-icons/si";
 
 const urlFor = (source) =>
   urlBuilder({
@@ -35,93 +37,152 @@ const Property = (property) => {
   // Get all the ratings and convert it to a number
   const ratings = reviews.map((review) => parseInt(review.rating.slice(0, 1)));
 
-  console.log(ratings);
-
   return (
     <article className="container">
-      <header className="property-header">
+      <header className="property-header-container">
         <div className="text-sm">
           <h1 className="text-xl">{title}</h1>
 
-          <p>
-            <span aria-hidden="true">
+          <div className="property-header">
+            <span className="red-icon" aria-hidden="true">
               <BsFillStarFill />
             </span>
-            {ratings.reduce((a, b) => a + b, 0) / ratings.length}
-          </p>
-
-          <p>
-            {reviews.length} review{isPlural(reviews.length)}
-          </p>
+            <p>
+              <strong>
+                {ratings.reduce((a, b) => a + b, 0) / ratings.length}
+              </strong>
+            </p>
+            <p className="reviews-count">
+              <strong>
+                ({reviews.length} review{isPlural(reviews.length)})
+              </strong>
+            </p>
+          </div>
         </div>
-        <div className="text-sm">
-          <a href="#">
-            <BsFillShareFill />
-            Share
-          </a>
-          <a href="#">
-            <BsHeart />
-            Save
-          </a>
+        <div className="property-actions text-sm">
+          <button aria-label="Share">
+            <span aria-hidden="true">
+              <BsFillShareFill />
+            </span>
+            <p>Share</p>
+          </button>
+          <button aria-label="Save">
+            <span aria-hidden="true">
+              <BsHeart />
+            </span>
+            <p>Save</p>
+          </button>
         </div>
       </header>
 
-      <section className="property-images">
+      <section className="property-images-container">
         <img src={imageUrl} alt="Main property image" />
-        {images.map((img, index) => (
-          <img src={urlFor(img.asset)} alt={img.caption} key={index} />
-        ))}
+        <div className="property-images">
+          {images.map((img, index) => (
+            <img src={urlFor(img.asset)} alt={img.caption} key={index} />
+          ))}
+        </div>
       </section>
 
-      <div className="property-details">
+      <div className="property-details-container">
         <div>
           <section>
-            <div>
+            <div className="property-details-header">
               <div>
-                <p>
+                <p className="text-lg">
                   Entire {propertyType} hosted by {host.name}
                 </p>
-                <p>
-                  {beds} Bed{isPlural(beds)}
-                </p>
-                <p>
-                  {bedrooms} Bedroom{isPlural(bedrooms)}
-                </p>
+                <div className="flex-center text-base text-light">
+                  <p>
+                    {beds} Bed{isPlural(beds)}
+                  </p>
+                  <span aria-hidden="true">&#8226;</span>
+                  <p>
+                    {bedrooms} Bedroom{isPlural(bedrooms)}
+                  </p>
+                </div>
               </div>
-              <img src={urlFor(host.mainImage.asset)} alt="Host avatar" />
+              <img
+                src={urlFor(host.mainImage.asset)}
+                className="host-avatar"
+                alt="Host avatar"
+              />
             </div>
 
-            <p>
-              <BsHouseDoor />
-              Entire home <br />
-              <span>You’ll have the {propertyType} to yourself.</span>
-            </p>
-            <p>
+            <hr />
+
+            <div className="property-amenities">
+              <span aria-hidden="true">
+                <BsHouseDoor />
+              </span>
+              <div>
+                <p className="text-medium">Entire home</p>
+                <p className="text-base text-gray text-light">
+                  You’ll have the {propertyType} to yourself.
+                </p>
+              </div>
+            </div>
+
+            <div className="property-amenities">
               <BsStars />
-              Enhanced Clean <br />
-              <span>
-                This Host committed to Airbnb's 5-step enhanced cleaning
-                process.
-              </span>
-            </p>
-            <p>
+              <div>
+                <p className="text-medium">Enhanced Clean</p>
+                <p className="text-base text-gray text-light">
+                  This Host committed to Airbnb's 5-step enhanced cleaning
+                  process.
+                </p>
+              </div>
+            </div>
+
+            <div className="property-amenities">
               <BsPinAngle />
-              Great location <br />
-              <span>
-                100% of recent guests gave the location a 5-star rating.
-              </span>
-            </p>
+              <div>
+                <p className="text-medium">Great location</p>
+                <p className="text-base text-gray text-light">
+                  100% of recent guests gave the location a 5-star rating.
+                </p>
+              </div>
+            </div>
           </section>
 
+          <hr />
+
           <section>
+            <button className="translate" aria-label="Translate to Spanish">
+              Translate to Spanish
+              <SiGoogletranslate />
+            </button>
             <p>{description}</p>
           </section>
         </div>
 
-        <section>
-          <p>${pricePerNight} / night</p>
-          <button>Check availability</button>
-        </section>
+        <div className="property-price-container">
+          <section className="property-price">
+            <div className="flex-center">
+              <p className="text-lg no-margin">
+                ${pricePerNight}{" "}
+                <span className="text-light text-medium">/ night</span>
+              </p>
+              <div className="flex-center text-sm">
+                <span className="red-icon" aria-hidden="true">
+                  <BsFillStarFill />
+                </span>
+                <p>
+                  <strong>
+                    {ratings.reduce((a, b) => a + b, 0) / ratings.length}
+                  </strong>
+                </p>
+                <p className="reviews-count">
+                  <strong>
+                    ({reviews.length} review{isPlural(reviews.length)})
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            <button className="check-avail">Check availability</button>
+          </section>
+        </div>
       </div>
 
       {/* <p>Latitude: {location.lat}</p>
