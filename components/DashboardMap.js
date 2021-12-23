@@ -52,6 +52,7 @@ const DashboardMap = ({ properties }) => {
             url: image,
             anchor: new google.maps.Point(5, 58),
           }}
+          key={index}
         />
       ))}
       <></>
