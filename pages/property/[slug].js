@@ -1,22 +1,11 @@
 import { sanityClient } from "../../sanity";
-import urlBuilder from "@sanity/image-url";
-import { isPlural } from "../../utils";
-import {
-  BsFillStarFill,
-  BsHouseDoor,
-  BsStars,
-  BsPinAngle,
-  BsFillShareFill,
-  BsHeart,
-  BsTranslate,
-} from "react-icons/bs";
+import { isPlural, urlFor, getRatings } from "../../utils";
+import PropertyImages from "../../components/PropertyImages";
+import Reviews from "../../components/Reviews";
+import Amenities from "../../components/Amenities";
+import Maps from "../../components/Maps";
+import { BsFillStarFill, BsFillShareFill, BsHeart } from "react-icons/bs";
 import { SiGoogletranslate } from "react-icons/si";
-
-const urlFor = (source) =>
-  urlBuilder({
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  }).image(source);
 
 const Property = (property) => {
   const singleProperty = property.property;
@@ -34,9 +23,6 @@ const Property = (property) => {
     reviews,
   } = singleProperty;
 
-  // Get all the ratings and convert it to a number
-  const ratings = reviews.map((review) => parseInt(review.rating.slice(0, 1)));
-
   return (
     <article className="container">
       <header className="property-header-container">
@@ -48,9 +34,7 @@ const Property = (property) => {
               <BsFillStarFill />
             </span>
             <p>
-              <strong>
-                {ratings.reduce((a, b) => a + b, 0) / ratings.length}
-              </strong>
+              <strong>{getRatings(reviews)}</strong>
             </p>
             <p className="reviews-count">
               <strong>
@@ -75,19 +59,12 @@ const Property = (property) => {
         </div>
       </header>
 
-      <section className="property-images-container">
-        <img src={imageUrl} alt="Main property image" />
-        <div className="property-images">
-          {images.map((img, index) => (
-            <img src={urlFor(img.asset)} alt={img.caption} key={index} />
-          ))}
-        </div>
-      </section>
+      <PropertyImages imageUrl={imageUrl} images={images} />
 
       <div className="property-details-container">
         <div>
           <section>
-            <div className="property-details-header">
+            <header className="property-details-header">
               <div>
                 <p className="text-lg">
                   Entire {propertyType} hosted by {host.name}
@@ -107,42 +84,11 @@ const Property = (property) => {
                 className="host-avatar"
                 alt="Host avatar"
               />
-            </div>
+            </header>
 
             <hr />
 
-            <div className="property-amenities">
-              <span aria-hidden="true">
-                <BsHouseDoor />
-              </span>
-              <div>
-                <p className="text-medium">Entire home</p>
-                <p className="text-base text-gray text-light">
-                  You’ll have the {propertyType} to yourself.
-                </p>
-              </div>
-            </div>
-
-            <div className="property-amenities">
-              <BsStars />
-              <div>
-                <p className="text-medium">Enhanced Clean</p>
-                <p className="text-base text-gray text-light">
-                  This Host committed to Airbnb's 5-step enhanced cleaning
-                  process.
-                </p>
-              </div>
-            </div>
-
-            <div className="property-amenities">
-              <BsPinAngle />
-              <div>
-                <p className="text-medium">Great location</p>
-                <p className="text-base text-gray text-light">
-                  100% of recent guests gave the location a 5-star rating.
-                </p>
-              </div>
-            </div>
+            <Amenities propertyType={propertyType} />
           </section>
 
           <hr />
@@ -158,7 +104,7 @@ const Property = (property) => {
 
         <div className="property-price-container">
           <section className="property-price">
-            <div className="flex-center">
+            <header className="flex-center">
               <p className="text-lg no-margin">
                 ${pricePerNight}{" "}
                 <span className="text-light text-medium">/ night</span>
@@ -168,15 +114,34 @@ const Property = (property) => {
                   <BsFillStarFill />
                 </span>
                 <p>
-                  <strong>
-                    {ratings.reduce((a, b) => a + b, 0) / ratings.length}
-                  </strong>
+                  <strong>{getRatings(reviews)}</strong>
                 </p>
                 <p className="reviews-count">
                   <strong>
                     ({reviews.length} review{isPlural(reviews.length)})
                   </strong>
                 </p>
+              </div>
+            </header>
+
+            <div className="availability-container">
+              <div className="flex-center">
+                <div className="right-margin">
+                  <label htmlFor="check-in">Check-in</label>
+                  <input type="text" id="check-in" />
+                </div>
+                <div>
+                  <label htmlFor="check-out">Checkout</label>
+                  <input type="text" id="check-in" />
+                </div>
+              </div>
+              <div>
+                <p>Guests</p>
+                <select name="guest">
+                  <option defaultValue="1 guest">1 guest</option>
+                  <option value="2 guests">2 guests</option>
+                  <option value="3 guests">3 guests</option>
+                </select>
               </div>
             </div>
 
@@ -188,18 +153,17 @@ const Property = (property) => {
       {/* <p>Latitude: {location.lat}</p>
       <p>Longitude: {location.lng}</p> */}
 
-      {/* <h2>Reviews</h2>
-      {reviews.map((review, index) => (
-        <div key={index}>
-          <p>{review.rating}</p>
-          <p>{review.reviewDescription}</p>
-          <p>{review.traveller.name}</p>
-          <img
-            src={urlFor(review.traveller.mainImage.asset)}
-            alt="User avatar"
-          />
-        </div>
-      ))} */}
+      <hr />
+
+      <Reviews data={reviews} />
+
+      <hr />
+
+      <article className="location-map">
+        <h2>Location</h2>
+
+        <Maps location={location} />
+      </article>
     </article>
   );
 };

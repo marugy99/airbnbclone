@@ -2,8 +2,13 @@ import Link from "next/link";
 import Head from "next/head";
 import { BsGlobe2, BsList } from "react-icons/bs";
 import { FaUserCircle, FaSearch } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+  const route = router.route;
+  console.log(route);
+
   return (
     <>
       <Head>
@@ -17,7 +22,7 @@ const Layout = ({ children }) => {
       </Head>
 
       <nav className="primary-nav">
-        <div className="container">
+        <div className={`container ${route === "/" ? "home" : ""}`}>
           <div>
             <Link href="/">
               <a>
