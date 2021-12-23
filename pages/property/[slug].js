@@ -59,7 +59,7 @@ const Property = (property) => {
         </div>
       </header>
 
-      <PropertyImages imageUrl={imageUrl} images={images} />
+      <PropertyImages imageUrl={imageUrl} allImages={images} />
 
       <div className="property-details-container">
         <div>

@@ -1,6 +1,9 @@
 import { urlFor } from "../utils";
 
-const PropertyImages = ({ imageUrl, images }) => {
+const PropertyImages = ({ imageUrl, allImages }) => {
+  // Only select the first 2 images
+  // TODO: create component dedicated to all images
+  const images = allImages.slice(0, 2);
   return (
     <section className="property-images-container">
       <img src={imageUrl} alt="Main property image" />
