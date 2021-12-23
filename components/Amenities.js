@@ -20,7 +20,7 @@ const Amenities = ({ propertyType }) => {
         <div>
           <p className="text-medium">Enhanced Clean</p>
           <p className="text-base text-gray text-light">
-            This Host committed to Airbnb's 5-step enhanced cleaning process.
+            This Host committed to Airbnb&apos 5-step enhanced cleaning process.
           </p>
         </div>
       </div>
