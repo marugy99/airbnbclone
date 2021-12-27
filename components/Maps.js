@@ -7,8 +7,6 @@ const Map = ({ location }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY,
   });
 
-  console.log("location.lat", location.lat);
-  console.log("location.lat", location.lat);
   const containerStyle = {
     width: "100%",
     height: "400px",
@@ -16,7 +14,6 @@ const Map = ({ location }) => {
     marginBottom: "1rem",
   };
 
-  console.log(location.lat);
   const center = {
     lat: location.lat,
     lng: location.lng,

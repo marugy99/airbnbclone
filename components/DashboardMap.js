@@ -7,8 +7,6 @@ const DashboardMap = ({ properties }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY,
   });
 
-  console.log(properties[0].location?.lat);
-  console.log(properties[0].location?.lat);
   const containerStyle = {
     width: "100%",
     height: "100vh",

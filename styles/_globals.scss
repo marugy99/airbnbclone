@@ -18,7 +18,7 @@ html {
   --text-semibold: 700;
   --brand-color: #f55a5f;
   --dark-grey: rgb(41, 41, 41);
-  --light-grey: rgb(138, 138, 138);
+  --light-grey: rgb(126, 125, 125);
 }
 
 .text-xl {
@@ -46,6 +46,10 @@ html {
 .text-sm {
   font-size: var(--text-sm);
   font-weight: var(--text-light);
+}
+
+.text-light {
+  font-weight: 300;
 }
 
 body {
@@ -90,7 +94,7 @@ h1 {
   margin: 0;
 }
 
-article > * {
+.container.property > * {
   margin: 0 1rem;
 }
 
@@ -119,10 +123,6 @@ hr {
 .text-gray {
   color: var(--light-grey);
   margin-top: 5px;
-}
-
-.text-light {
-  font-weight: 300;
 }
 
 .red-icon svg {
@@ -265,6 +265,11 @@ hr {
   & a {
     display: block;
   }
+
+  .author-credit {
+    display: inline-block;
+    text-decoration: underline;
+  }
 }
 
 .property-tile {
@@ -311,6 +316,10 @@ hr {
   .property-header {
     display: flex;
     align-items: center;
+  }
+
+  h1 {
+    margin-top: 1rem;
   }
 
   .property-actions {
@@ -407,6 +416,7 @@ hr {
 .property-price-container {
   position: sticky;
   top: 20px;
+  margin: 1rem 0;
 }
 
 .property-price {
@@ -487,7 +497,7 @@ hr {
 .review-container {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: 1fr 1fr;
   margin: 1rem;
 }
 
@@ -512,19 +522,13 @@ hr {
   margin-top: 1rem;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
   :root {
     --text-xl: 24px;
     --text-lg: 18px;
     --text-base: 14px;
     --text-sm: 14px;
     --text-xs: 12px;
-    --text-light: 300;
-    --text-regular: 400;
-    --text-semibold: 700;
-    --brand-color: #f55a5f;
-    --dark-grey: rgb(41, 41, 41);
-    --light-grey: rgb(138, 138, 138);
   }
 
   .primary-nav {
@@ -547,6 +551,10 @@ hr {
 
   .home-container {
     display: block;
+
+    & > * {
+      margin: 0 1rem;
+    }
   }
 
   .property-header-container {
@@ -554,7 +562,23 @@ hr {
   }
 
   .property-details-container {
-    display: grid;
     grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .review-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .property-tile {
+    flex-direction: column;
+  }
+
+  .properties-list {
+    img {
+      max-width: none;
+    }
   }
 }

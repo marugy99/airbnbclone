@@ -9,7 +9,7 @@ export default function Home({ properties }) {
     <>
       <div className="home-container">
         <div className="properties-list">
-          <h1 className="text-sm">Airbnb Clone by Maru</h1>
+          <h1 className="text-sm">Airbnb Clone by <a href="https://marucodes.com/" className="author-credit" target="_blank" rel="noreferrer">Maru</a></h1>
           {properties.map((property, index) => (
             <Link href={`/property/${property.slug.current}`} key={index}>
               <a>

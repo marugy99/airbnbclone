@@ -24,7 +24,7 @@ const Property = (property) => {
   } = singleProperty;
 
   return (
-    <article className="container">
+    <article className="container property">
       <header className="property-header-container">
         <div className="text-sm">
           <h1 className="text-xl">{title}</h1>
@@ -132,7 +132,7 @@ const Property = (property) => {
                 </div>
                 <div>
                   <label htmlFor="check-out">Checkout</label>
-                  <input type="text" id="check-in" />
+                  <input type="text" id="check-out" />
                 </div>
               </div>
               <div>
@@ -149,9 +149,6 @@ const Property = (property) => {
           </section>
         </div>
       </div>
-
-      {/* <p>Latitude: {location.lat}</p>
-      <p>Longitude: {location.lng}</p> */}
 
       <hr />
 
