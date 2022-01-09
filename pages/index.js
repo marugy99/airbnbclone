@@ -3,52 +3,87 @@ import Link from "next/link";
 import { BsFillStarFill } from "react-icons/bs";
 import { getRatings, isPlural } from "../utils";
 import DashboardMap from "../components/DashboardMap";
+import QuickView from "../components/QuickView";
+import { useState } from "react";
 
-export default function Home({ properties }) {
+const Home = ({ properties }) => {
+  const [modal, setModal] = useState(null);
+
+  const openModal = (value) => {
+    setModal(value);
+  };
+
+  const hideModal = () => {
+    setModal(null);
+  };
+
   return (
     <>
       <div className="home-container">
         <div className="properties-list">
-          <h1 className="text-sm">Airbnb Clone by <a href="https://marucodes.com/" className="author-credit" target="_blank" rel="noreferrer">Maru</a></h1>
+          <h1 className="text-sm">
+            Airbnb Clone by{" "}
+            <a
+              href="https://marucodes.com/"
+              className="author-credit"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Maru
+            </a>
+          </h1>
           {properties.map((property, index) => (
-            <Link href={`/property/${property.slug.current}`} key={index}>
-              <a>
-                <section className="property-tile">
-                  <img src={property.imageUrl} alt="Main property image" />
-                  <div>
-                    <p className="text-sm">
-                      Entire {property.propertyType} hosted by{" "}
-                      {property.host.name}
-                    </p>
+            <section className="property-tile" key={index}>
+              <img src={property.imageUrl} alt="Main property image" />
+              <div>
+                <p className="text-sm">
+                  Entire {property.propertyType} hosted by {property.host.name}
+                </p>
+                <Link href={`/property/${property.slug.current}`} key={index}>
+                  <a>
                     <h2 className="text-medium">{property.title}</h2>
-                    <p className="text-base">{property.description}</p>
+                  </a>
+                </Link>
+                <p className="text-base">{property.description}</p>
 
-                    <div className="property-tile-stats">
-                      <div>
-                        <span className="red-icon" aria-hidden="true">
-                          <BsFillStarFill />
-                        </span>
-                        <span className="no-margin">
-                          <strong>{getRatings(property.reviews)}</strong>
-                        </span>
-                        <span className="reviews-count">
-                          ({property.reviews.length} review
-                          {isPlural(property.reviews.length)})
-                        </span>
-                      </div>
-                      <div>
-                        <p className="price-per-night text-lg no-margin">
-                          ${property.pricePerNight}{" "}
-                          <span className="text-light text-medium">
-                            / night
-                          </span>
-                        </p>
-                      </div>
-                    </div>
+                <button
+                  onClick={() => openModal(property.id)}
+                  className="view-modal"
+                >
+                  Quick View
+                </button>
+
+                <QuickView
+                  isOpen={modal === property.id}
+                  closeModal={() => hideModal()}
+                  name={property.title}
+                  description={property.description}
+                  mainImage={property.imageUrl}
+                  images={property.images}
+                />
+
+                <div className="property-tile-stats">
+                  <div>
+                    <span className="red-icon" aria-hidden="true">
+                      <BsFillStarFill />
+                    </span>
+                    <span className="no-margin">
+                      <strong>{getRatings(property.reviews)}</strong>
+                    </span>
+                    <span className="reviews-count">
+                      ({property.reviews.length} review
+                      {isPlural(property.reviews.length)})
+                    </span>
                   </div>
-                </section>
-              </a>
-            </Link>
+                  <div>
+                    <p className="price-per-night text-lg no-margin">
+                      ${property.pricePerNight}{" "}
+                      <span className="text-light text-medium">/ night</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
           ))}
         </div>
         <div>
@@ -59,7 +94,10 @@ export default function Home({ properties }) {
       </div>
     </>
   );
-}
+};
+
+export default Home;
+
 export async function getServerSideProps() {
   const query = `*[ _type == "property" ]{
     title,
@@ -67,6 +105,7 @@ export async function getServerSideProps() {
     slug,
     propertyType,
     pricePerNight,
+    id,
     beds,
     bedrooms,
     description,
@@ -86,6 +125,10 @@ export async function getServerSideProps() {
       }
     },
     "imageUrl": mainImage.asset->url,
+    images[] {
+      caption,
+      asset
+    }
   }`;
   const properties = await sanityClient.fetch(query);
 

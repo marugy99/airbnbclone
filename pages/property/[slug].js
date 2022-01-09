@@ -4,13 +4,21 @@ import PropertyImages from "../../components/PropertyImages";
 import Reviews from "../../components/Reviews";
 import Amenities from "../../components/Amenities";
 import Maps from "../../components/Maps";
-import { BsFillStarFill, BsFillShareFill, BsHeart } from "react-icons/bs";
+import QuickView from "../../components/QuickView";
+import {
+  BsFillStarFill,
+  BsFillShareFill,
+  BsHeart,
+  BsEyeFill,
+} from "react-icons/bs";
 import { SiGoogletranslate } from "react-icons/si";
+import { useState } from "react";
 
 const Property = (property) => {
   const singleProperty = property.property;
   const {
     title,
+    id,
     description,
     host,
     imageUrl,
@@ -22,6 +30,16 @@ const Property = (property) => {
     images,
     reviews,
   } = singleProperty;
+
+  const [modal, setModal] = useState(null);
+
+  const openModal = (value) => {
+    setModal(value);
+  };
+
+  const hideModal = () => {
+    setModal(null);
+  };
 
   return (
     <article className="container property">
@@ -59,7 +77,25 @@ const Property = (property) => {
         </div>
       </header>
 
-      <PropertyImages imageUrl={imageUrl} allImages={images} />
+      <button
+        onClick={() => openModal(id)}
+        className="btn-view-all"
+        aria-label="View all images"
+      >
+        <div className="view-all-images" aria-hidden="true">
+          <BsEyeFill />
+        </div>
+        <PropertyImages imageUrl={imageUrl} allImages={images} />
+      </button>
+
+      <QuickView
+        isOpen={modal === id}
+        closeModal={() => hideModal()}
+        name={title}
+        description={description}
+        mainImage={imageUrl}
+        images={images}
+      />
 
       <div className="property-details-container">
         <div>
@@ -171,6 +207,7 @@ export async function getServerSideProps(context) {
   const slug = context.params.slug;
   const query = `*[ _type == "property" && slug.current == "${slug}" ][0]{
     title,
+    id,
     location,
     propertyType,
     pricePerNight,

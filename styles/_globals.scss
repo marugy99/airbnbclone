@@ -196,7 +196,11 @@ hr {
       font-size: var(--text-xs);
       padding: 10px;
       border-radius: 50%;
-      background: var(--brand-color);
+      background: linear-gradient(
+        to right,
+        rgb(240, 94, 99) 0%,
+        rgb(247, 53, 59) 100%
+      );
     }
 
     &:focus-visible {
@@ -479,9 +483,8 @@ hr {
 .check-avail {
   background: linear-gradient(
     to right,
-    rgb(230, 30, 77) 0%,
-    rgb(227, 28, 95) 50%,
-    rgb(215, 4, 102) 100%
+    rgb(240, 94, 99) 0%,
+    rgb(247, 53, 59) 100%
   );
   color: white;
   border-radius: 10px;
@@ -520,6 +523,108 @@ hr {
 
 .location-map {
   margin-top: 1rem;
+}
+
+.view-modal {
+  padding: 6px 12px;
+  background: linear-gradient(
+    to right,
+    rgb(240, 94, 99) 0%,
+    rgb(247, 53, 59) 100%
+  );
+  font-size: var(--text-sm);
+  color: white;
+  border-radius: 10px;
+  font-weight: var(--text-semibold);
+  transition: all 300ms ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 20px;
+  max-width: 60vw;
+  transform: none;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+
+  p {
+    color: var(--light-grey);
+  }
+
+  button {
+    background: linear-gradient(
+      to right,
+      rgb(240, 94, 99) 0%,
+      rgb(247, 53, 59) 100%
+    );
+    padding: 8px 16px;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.modal-card {
+  position: relative;
+  max-height: 90vh;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  z-index: 100;
+  padding: 2rem 4rem;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.all-images-container {
+  max-height: 50vh;
+  overflow-y: auto;
+
+  img {
+    display: block;
+    width: 100%;
+    margin: auto;
+  }
+}
+
+.btn-view-all {
+  position: relative;
+  padding: 0;
+}
+
+.view-all-images {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  border-radius: 10px;
+  color: white;
+  font-size: 3rem;
+  opacity: 0;
+  transition: all 300ms ease-in-out;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
 }
 
 @media (max-width: 1000px) {
@@ -574,6 +679,15 @@ hr {
 @media (max-width: 650px) {
   .property-tile {
     flex-direction: column;
+  }
+
+  .modal {
+    max-width: none;
+    margin: 1.5rem;
+  }
+
+  .modal-card {
+    padding: 1rem 2rem;
   }
 
   .properties-list {
