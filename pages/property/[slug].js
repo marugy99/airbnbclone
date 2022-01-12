@@ -1,5 +1,5 @@
 import { sanityClient } from "../../sanity";
-import { isPlural, urlFor, getRatings } from "../../utils";
+import { isPlural, urlFor, getRatings, checkObj } from "../../utils";
 import PropertyImages from "../../components/PropertyImages";
 import Reviews from "../../components/Reviews";
 import Amenities from "../../components/Amenities";
@@ -238,11 +238,9 @@ export async function getServerSideProps(context) {
   }`;
   const property = await sanityClient.fetch(query);
 
-  if (!property) {
+  if (checkObj(property)) {
     return {
-      props: {
-        notFound: true,
-      },
+      notFound: true,
     };
   } else {
     return {

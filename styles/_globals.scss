@@ -583,6 +583,7 @@ hr {
   padding: 1.5rem;
   z-index: 100;
   padding: 2rem 4rem;
+  overflow: auto;
 }
 
 .overlay {
@@ -669,6 +670,10 @@ hr {
   .property-details-container {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .map-container {
+    display: none;
   }
 
   .review-container {
