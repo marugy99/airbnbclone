@@ -310,6 +310,10 @@ hr {
   top: 20px;
 }
 
+#map {
+  height: 180px;
+}
+
 .property-header-container {
   display: flex;
   justify-content: space-between;
@@ -328,6 +332,7 @@ hr {
 
   .property-actions {
     align-self: flex-end;
+    align-items: center;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -337,7 +342,7 @@ hr {
       align-items: center;
       gap: 10px;
 
-      p {
+      a {
         text-decoration: underline;
       }
     }
@@ -580,10 +585,13 @@ hr {
   max-height: 90vh;
   background-color: white;
   border-radius: 10px;
-  padding: 1.5rem;
   z-index: 100;
-  padding: 2rem 4rem;
+  padding: 2rem 3rem;
   overflow: auto;
+
+  h2 {
+    margin-top: 0;
+  }
 }
 
 .overlay {
@@ -692,7 +700,7 @@ hr {
   }
 
   .modal-card {
-    padding: 1rem 2rem;
+    padding: 2rem 1.5rem;
   }
 
   .properties-list {

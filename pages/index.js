@@ -98,7 +98,7 @@ const Home = ({ properties }) => {
 
 export default Home;
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const query = `*[ _type == "property" ]{
     title,
     location,

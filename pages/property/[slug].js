@@ -9,13 +9,13 @@ import {
   BsFillStarFill,
   BsFillShareFill,
   BsHeart,
+  BsFillHeartFill,
   BsEyeFill,
 } from "react-icons/bs";
 import { SiGoogletranslate } from "react-icons/si";
 import { useState } from "react";
 
-const Property = (property) => {
-  const singleProperty = property.property;
+const Property = ({ property }) => {
   const {
     title,
     id,
@@ -29,9 +29,12 @@ const Property = (property) => {
     location,
     images,
     reviews,
-  } = singleProperty;
+    likes,
+  } = property;
 
   const [modal, setModal] = useState(null);
+  const [propertyLikes, setPropertyLikes] = useState(likes);
+  const [likeClicked, setLikeClicked] = useState(false);
 
   const openModal = (value) => {
     setModal(value);
@@ -41,10 +44,27 @@ const Property = (property) => {
     setModal(null);
   };
 
+  const addLike = async () => {
+    if (!likeClicked) {
+      const res = await fetch("/api/handle-like", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({ _id: property._id }),
+      }).catch((error) => console.log(error));
+
+      const data = await res.json();
+      setPropertyLikes(data.likes);
+      // To prevent clicking multiple times without refreshing the page
+      setLikeClicked(true);
+    }
+  };
+
   return (
     <article className="container property">
       <header className="property-header-container">
-        <div className="text-sm">
+        <div>
           <h1 className="text-xl">{title}</h1>
 
           <div className="property-header">
@@ -61,18 +81,19 @@ const Property = (property) => {
             </p>
           </div>
         </div>
-        <div className="property-actions text-sm">
+
+        <div className="property-actions">
+          <button aria-label="Like" onClick={addLike}>
+            <span aria-hidden="true">
+              {likeClicked ? <BsFillHeartFill /> : <BsHeart />}
+            </span>
+            <p>{propertyLikes}</p>
+          </button>
           <button aria-label="Share">
             <span aria-hidden="true">
               <BsFillShareFill />
             </span>
-            <p>Share</p>
-          </button>
-          <button aria-label="Save">
-            <span aria-hidden="true">
-              <BsHeart />
-            </span>
-            <p>Save</p>
+            <a href="#">Share</a>
           </button>
         </div>
       </header>
@@ -203,9 +224,31 @@ const Property = (property) => {
 
 export default Property;
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  const allProperties = await sanityClient.fetch(`
+    *[ _type == "property" ] {
+        slug
+    }
+  `);
+
+  const paths = allProperties.map((property) => {
+    return {
+      params: { slug: property.slug.current },
+    };
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps(context) {
   const slug = context.params.slug;
-  const query = `*[ _type == "property" && slug.current == "${slug}" ][0]{
+
+  const property = await sanityClient.fetch(`
+    *[ slug.current == "${slug}" ][0]{
+    _id,
     title,
     id,
     location,
@@ -233,10 +276,10 @@ export async function getServerSideProps(context) {
     images[] {
       caption,
       asset
-    }
+    },
+    likes
 
-  }`;
-  const property = await sanityClient.fetch(query);
+  }`);
 
   if (checkObj(property)) {
     return {
