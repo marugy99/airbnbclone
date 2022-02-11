@@ -1,10 +1,10 @@
 import { sanityClient } from "../sanity";
 import Link from "next/link";
 import { BsFillStarFill } from "react-icons/bs";
-import { getRatings, isPlural } from "../utils";
-import DashboardMap from "../components/DashboardMap";
+import { getRatings, isPlural, getAvg } from "../utils";
 import QuickView from "../components/QuickView";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 const Home = ({ properties }) => {
   const [modal, setModal] = useState(null);
@@ -16,6 +16,28 @@ const Home = ({ properties }) => {
   const hideModal = () => {
     setModal(null);
   };
+
+  // Map variables
+  // Get an object with all coordinates in an array and title value
+  // This is to show the multiple markers and display the property title in popup
+  const locations = properties.map((property) => ({
+    coordinates: [property.location.lat, property.location.lng],
+    title: property.title,
+  }));
+
+  // Get all latitutes and longitudes in arrays to calculate average
+  const latitudes = properties.map((property) => property.location.lat);
+  const longitudes = properties.map((property) => property.location.lng);
+
+  // Calculate average of latitudes and longitudes with custom function
+  // This is passed to the DashboardMap component to center it according to the current coordinates
+  const latAvg = getAvg(latitudes);
+  const lngAvg = getAvg(longitudes);
+
+  // Prevent SSR for the map because Leaflet doesn't support it
+  const DashboardMap = dynamic(() => import("/components/DashboardMap"), {
+    ssr: false,
+  });
 
   return (
     <>
@@ -88,7 +110,11 @@ const Home = ({ properties }) => {
         </div>
         <div>
           <section className="map-container">
-            <DashboardMap properties={properties} />
+            <DashboardMap
+              locations={locations}
+              latAvg={latAvg}
+              lngAvg={lngAvg}
+            />
           </section>
         </div>
       </div>

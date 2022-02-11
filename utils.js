@@ -9,6 +9,10 @@ export const urlFor = (source) =>
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   }).image(source);
 
+export const getAvg = (elem) => {
+  return elem.reduce((a, b) => a + b, 0) / elem.length;
+};
+
 export const getRatings = (reviews) => {
   if (reviews) {
     // Get all the ratings in a new array and convert each one to a number
@@ -16,7 +20,7 @@ export const getRatings = (reviews) => {
       parseInt(review.rating.slice(0, 1))
     );
     // Get ratings average
-    const ratingsAvg = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+    const ratingsAvg = getAvg(ratings);
     // Return value
     return ratingsAvg;
   }

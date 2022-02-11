@@ -1,22 +1,20 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
-const Map = ({ locations, latAvg, lngAvg }) => {
+const Map = ({ lat, long }) => {
   return (
     <MapContainer
-      center={[latAvg, lngAvg]}
-      zoom={3}
+      center={[lat, long]}
+      zoom={20}
       scrollWheelZoom={false}
-      style={{ minHeight: "100vh", width: "100%" }}
+      style={{ height: 400, width: "100%" }}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {locations.map((location, index) => (
-        <Marker position={location.coordinates} key={index}>
-          <Popup>{location.title}</Popup>
-        </Marker>
-      ))}
+      <Marker position={[lat, long]}>
+        <Popup>Property location</Popup>
+      </Marker>
     </MapContainer>
   );
 };

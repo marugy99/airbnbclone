@@ -310,8 +310,8 @@ hr {
   top: 20px;
 }
 
-#map {
-  height: 180px;
+.leaflet-container {
+  margin-bottom: 1rem;
 }
 
 .property-header-container {
@@ -524,10 +524,6 @@ hr {
   p {
     margin: 0;
   }
-}
-
-.location-map {
-  margin-top: 1rem;
 }
 
 .view-modal {

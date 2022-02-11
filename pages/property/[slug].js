@@ -3,7 +3,6 @@ import { isPlural, urlFor, getRatings, checkObj } from "../../utils";
 import PropertyImages from "../../components/PropertyImages";
 import Reviews from "../../components/Reviews";
 import Amenities from "../../components/Amenities";
-import Maps from "../../components/Maps";
 import QuickView from "../../components/QuickView";
 import {
   BsFillStarFill,
@@ -14,6 +13,7 @@ import {
 } from "react-icons/bs";
 import { SiGoogletranslate } from "react-icons/si";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 const Property = ({ property }) => {
   const {
@@ -60,6 +60,8 @@ const Property = ({ property }) => {
       setLikeClicked(true);
     }
   };
+
+  const Map = dynamic(() => import("/components/Map"), { ssr: false });
 
   return (
     <article className="container property">
@@ -215,8 +217,7 @@ const Property = ({ property }) => {
 
       <article className="location-map">
         <h2>Location</h2>
-
-        <Maps location={location} />
+        <Map lat={location.lat} long={location.lng} />
       </article>
     </article>
   );
