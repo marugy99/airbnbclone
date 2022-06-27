@@ -1,6 +1,7 @@
 ## Airbnb Clone
 
-- Built with [Next.js](https://nextjs.org/) and [Sanity](https://www.sanity.io/)
+- Built with [Next.js](https://nextjs.org/) and [Sanity](https://www.sanity.io/). 
+- Uses [Leaflet.js](https://leafletjs.com/) for the map and [HeadlessUI](https://headlessui.dev/) for the quick view modals.
 - [Live site](https://airbnbclone-two.vercel.app/)
 
 ## Getting Started
